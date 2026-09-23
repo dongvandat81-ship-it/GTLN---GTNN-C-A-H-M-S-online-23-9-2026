@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phiếu Học Tập Tương Tác: Giá Trị Lớn Nhất & Nhỏ Nhất - Toán 12</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- QRCode.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <!-- Chart.js for interactive curve visualization -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Tone.js for auditory feedback -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+  <!-- KaTeX for beautiful math formulas -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+  <!-- Font Awesome for clean educational iconography -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          },
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              900: '#312e81'
+            },
+            tealbrand: {
+              500: '#06b6d4',
+              600: '#0891b2'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    @media print {
+      body {
+        background: white !important;
+        color: black !important;
+        font-size: 11pt;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .print-page {
+        box-shadow: none !important;
+        border: none !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background-color: #cbd5e1;
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+
+<body class="bg-slate-100 text-slate-800 antialiased min-h-screen selection:bg-indigo-500 selection:text-white pb-12 font-sans">
+
+  <header class="no-print bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-cyan-500 text-white flex items-center justify-center font-bold text-lg shadow-md shadow-indigo-200">
+          <i class="fa-solid fa-square-root-variable"></i>
+        </div>
+        <div>
+          <h1 class="font-extrabold text-base md:text-lg text-slate-900 tracking-tight leading-tight">
+            TOÁN 12 <span class="text-indigo-600 font-semibold text-xs md:text-sm px-2 py-0.5 bg-indigo-50 rounded-full ml-1 border border-indigo-100">KNTT Bài 2</span>
+          </h1>
+          <p class="text-xs text-slate-500 font-medium">Phiếu Học Tập Tương Tác & Luyện Tập Khảo Sát Max/Min</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button id="btn-toggle-sound" onclick="toggleSound()" class="p-2 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 text-sm font-medium transition flex items-center gap-1.5" title="Bật/Tắt âm thanh tương tác">
+          <i id="sound-icon" class="fa-solid fa-volume-high text-indigo-600"></i>
+          <span class="hidden sm:inline text-xs">Âm thanh</span>
+        </button>
+
+        <button onclick="openQrModal()" class="px-3 py-2 rounded-lg bg-teal-50 text-teal-700 border border-teal-200 hover:bg-teal-100 text-xs md:text-sm font-semibold transition flex items-center gap-1.5 shadow-sm">
+          <i class="fa-solid fa-qrcode"></i>
+          <span>Mã QR Bài Tập</span>
+        </button>
+
+        <button onclick="window.print()" class="px-3 py-2 rounded-lg bg-indigo-50 text-indigo-700 border border-indigo-200 hover:bg-indigo-100 text-xs md:text-sm font-semibold transition flex items-center gap-1.5 shadow-sm">
+          <i class="fa-solid fa-print"></i>
+          <span class="hidden md:inline">In Phiếu (A4)</span>
+        </button>
+
+        <button id="btn-submit-result" onclick="submitResult()" class="px-4 py-2 rounded-lg bg-gradient-to-r from-rose-500 to-rose-600 text-white text-xs md:text-sm font-bold shadow-md hover:shadow-rose-300 hover:from-rose-700 transition flex items-center gap-1.5 hidden animate-pulse">
+          <i class="fa-solid fa-paper-plane"></i>
+          <span>Nộp Bài</span>
+        </button>
+
+        <button id="btn-grade" onclick="checkAllWorksheet()" disabled class="px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-600 to-indigo-700 text-white text-xs md:text-sm font-bold shadow-md hover:shadow-indigo-300 transition flex items-center gap-1.5 opacity-50 cursor-not-allowed">
+          <i class="fa-solid fa-clipboard-check"></i>
+          <span>Chấm Điểm</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-3 sm:px-6 pt-6">
+
+    <!-- Card: Thông tin học sinh & QR quick badge -->
+    <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 mb-6 transition-all hover:shadow-md">
+      <div class="flex flex-col lg:flex-row items-center justify-between gap-5">
+        
+        <div class="w-full lg:w-3/4">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-indigo-100 text-indigo-700 text-xs font-bold">1</span>
+            <h2 class="text-sm uppercase tracking-wider font-bold text-slate-700">Thông tin học sinh làm bài</h2>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div>
+              <label class="block text-xs font-semibold text-slate-500 mb-1">Họ và tên học sinh: <span class="text-rose-500 font-bold">*</span></label>
+              <div class="relative">
+                <i class="fa-regular fa-user absolute left-3 top-3 text-slate-400 text-xs"></i>
+                <input id="student_name" type="text" placeholder="Nguyễn Văn A" oninput="updateLiveStudentBadge()" class="w-full pl-8 pr-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none transition">
+              </div>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-500 mb-1">Lớp: <span class="text-rose-500 font-bold">*</span></label>
+              <div class="relative">
+                <i class="fa-solid fa-graduation-cap absolute left-3 top-3 text-slate-400 text-xs"></i>
+                <input id="student_class" type="text" placeholder="12A1" oninput="updateLiveStudentBadge()" class="w-full pl-8 pr-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none transition">
+              </div>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-500 mb-1">Số thứ tự (STT): <span class="text-rose-500 font-bold">*</span></label>
+              <div class="relative">
+                <i class="fa-solid fa-list-ol absolute left-3 top-3 text-slate-400 text-xs"></i>
+                <input id="student_stt" type="number" min="1" max="99" placeholder="01" oninput="updateLiveStudentBadge()" class="w-full pl-8 pr-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none transition">
+              </div>
+            </div>
+          </div>
+          
+          <div class="mt-4 flex items-center gap-3">
+             <button id="btn-start-quiz" onclick="startQuiz()" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold rounded-xl transition shadow-md flex items-center gap-2">
+               <i class="fa-solid fa-unlock-keyhole"></i> Bắt đầu làm bài
+             </button>
+             <span id="start-error-msg" class="text-xs text-rose-500 font-bold hidden"><i class="fa-solid fa-circle-exclamation"></i> Vui lòng điền đầy đủ thông tin bắt buộc (*)</span>
+          </div>
+        </div>
+
+        <!-- Student Badge & Quick QR Preview -->
+        <div class="w-full lg:w-1/4 flex items-center justify-center lg:justify-end gap-3 border-t lg:border-t-0 lg:border-l border-slate-100 pt-4 lg:pt-0 lg:pl-5">
+          <div class="flex flex-col items-center cursor-pointer group" onclick="openQrModal()">
+            <div id="quick-qr-box" class="p-1 bg-white border-2 border-dashed border-indigo-200 rounded-xl group-hover:border-indigo-500 transition shadow-sm">
+              <div id="quick-qr-code" class="w-20 h-20 flex items-center justify-center"></div>
+            </div>
+            <span class="text-[11px] font-semibold text-indigo-600 mt-1 flex items-center gap-1 group-hover:underline">
+              <i class="fa-solid fa-expand text-[10px]"></i> Nhấn phóng to QR
+            </span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="bg-gradient-to-br from-indigo-900 via-indigo-800 to-slate-900 text-white rounded-3xl p-6 mb-8 shadow-xl relative overflow-hidden">
+      <div class="absolute -right-16 -top-16 w-64 h-64 bg-cyan-500/20 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -left-16 -bottom-16 w-64 h-64 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-indigo-700/60 pb-5">
+        <div>
+          <span class="px-2.5 py-1 rounded-md text-xs font-bold tracking-wide uppercase bg-indigo-500/30 text-cyan-300 border border-indigo-400/30">
+            Toán 12 • Kết Nối Tri Thức
+          </span>
+          <h2 class="text-2xl md:text-3xl font-black mt-2 tracking-tight text-white">
+            BÀI 2: GIÁ TRỊ LỚN NHẤT & NHỎ NHẤT CỦA HÀM SỐ
+          </h2>
+          <p class="text-slate-300 text-xs sm:text-sm mt-1 max-w-xl">
+            Phiếu trắc nghiệm & tương tác 5 Dạng Toán chuẩn đề cương. Rèn luyện kĩ năng tìm GTLN, GTNN trên đoạn và phân tích mô hình dịch bệnh thực tế!
+          </p>
+        </div>
+
+        <div class="flex items-center gap-3 bg-white/10 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-white/15">
+          <div class="text-right">
+            <div class="text-[11px] text-indigo-200 font-semibold uppercase">Điểm số hiện tại</div>
+            <div id="live-score" class="text-2xl font-black text-amber-300 font-mono">0 / 100</div>
+          </div>
+          <div class="w-10 h-10 rounded-xl bg-amber-400 text-amber-950 flex items-center justify-center text-xl font-bold shadow-md">
+            <i class="fa-solid fa-trophy"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Dynamic Curve Sandbox -->
+      <div class="mt-5 grid grid-cols-1 lg:grid-cols-3 gap-5 items-center">
+        <div class="space-y-3 lg:col-span-1">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-cyan-300 flex items-center gap-1.5">
+            <i class="fa-solid fa-chart-line"></i> Phòng thí nghiệm đồ thị tương tác
+          </h3>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Chọn mô hình đồ thị để quan sát trực quan cực trị Max/Min và điểm cao nhất/thấp nhất trên đoạn:
+          </p>
+          <div class="grid grid-cols-2 gap-2">
+            <button onclick="renderInteractiveGraph('parabola')" class="graph-btn active text-left px-3 py-2 rounded-xl bg-indigo-700/60 hover:bg-indigo-600 border border-indigo-400/40 text-xs font-semibold text-white transition flex items-center gap-2">
+              <i class="fa-solid fa-bezier-curve text-cyan-300"></i> \( y = x^2 - 2x \)
+            </button>
+            <button onclick="renderInteractiveGraph('circle')" class="graph-btn text-left px-3 py-2 rounded-xl bg-indigo-900/60 hover:bg-indigo-600 border border-indigo-700/60 text-xs font-semibold text-slate-200 transition flex items-center gap-2">
+              <i class="fa-solid fa-circle-half-stroke text-amber-300"></i> \( y = \sqrt{1-x^2} \)
+            </button>
+            <button onclick="renderInteractiveGraph('virus')" class="graph-btn text-left px-3 py-2 rounded-xl bg-indigo-900/60 hover:bg-indigo-600 border border-indigo-700/60 text-xs font-semibold text-slate-200 transition flex items-center gap-2">
+              <i class="fa-solid fa-virus-covid text-rose-300"></i> \( N(t) = -t^3+12t^2 \)
+            </button>
+            <button onclick="renderInteractiveGraph('cubic')" class="graph-btn text-left px-3 py-2 rounded-xl bg-indigo-900/60 hover:bg-indigo-600 border border-indigo-700/60 text-xs font-semibold text-slate-200 transition flex items-center gap-2">
+              <i class="fa-solid fa-wave-square text-emerald-300"></i> \( y = x^3 - 2x^2 + 1 \)
+            </button>
+          </div>
+          <div id="graph-details" class="p-3 rounded-xl bg-black/30 border border-white/10 text-[11px] text-indigo-100 font-mono">
+            Hàm số: f(x) = x² - 2x trên [0; 3]<br>
+            • Max = 3 tại x = 3<br>
+            • Min = -1 tại x = 1 (Đỉnh Parabol)
+          </div>
+        </div>
+
+        <div class="lg:col-span-2 bg-slate-900/80 rounded-2xl p-3 border border-indigo-500/30">
+          <div class="h-52 w-full">
+            <canvas id="interactiveCanvas"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="quiz-container" class="space-y-6 relative opacity-50 blur-[2px] pointer-events-none transition-all duration-500">
+      
+      <!-- Lớp phủ khóa bài làm -->
+      <div id="quiz-lock-overlay" class="absolute inset-0 z-40 flex items-center justify-center bg-slate-100/10 backdrop-blur-[1px] rounded-2xl">
+         <div class="bg-white px-8 py-6 rounded-2xl shadow-xl border border-slate-200 text-center flex flex-col items-center max-w-sm transform -translate-y-20">
+            <div class="w-14 h-14 bg-rose-100 text-rose-600 rounded-full flex items-center justify-center text-2xl mb-4 shadow-inner">
+               <i class="fa-solid fa-lock"></i>
+            </div>
+            <h4 class="font-extrabold text-slate-800 text-lg">Bài làm đang bị khóa</h4>
+            <p class="text-sm text-slate-500 mt-2 font-medium">Vui lòng điền đầy đủ <b>Họ tên, Lớp và Số thứ tự</b> ở trên cùng, sau đó bấm <b>"Bắt đầu làm bài"</b> để mở khóa.</p>
+         </div>
+      </div>
+
+      <!-- DẠNG 1: ĐIỀN KHUYẾT -->
+      <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 relative overflow-hidden transition-all hover:border-indigo-300">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-sm">
+              D1
+            </div>
+            <div>
+              <h3 class="font-extrabold text-base text-slate-900">Dạng 1: Điền khuyết lý thuyết trọng tâm</h3>
+              <p class="text-xs text-slate-500">2 câu • Nắm vững định nghĩa & quy tắc tìm cực trị trên đoạn</p>
+            </div>
+          </div>
+          <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-full border border-blue-200">20 Điểm</span>
+        </div>
+
+        <!-- Question 1.1 -->
+        <div class="space-y-4">
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-100">
+            <div class="flex items-start gap-2 mb-2">
+              <span class="font-mono text-xs font-bold px-2 py-0.5 rounded bg-blue-200 text-blue-900">Câu 1</span>
+              <p class="text-sm text-slate-800 leading-relaxed font-medium">
+                Cho hàm số <span class="font-mono font-bold text-indigo-700">\( y = f(x) \)</span> xác định trên tập <span class="font-mono font-bold">\( D \)</span>. 
+                Số <span class="font-mono font-bold text-rose-600">\( M \)</span> được gọi là giá trị lớn nhất của hàm số trên <span class="font-mono font-bold">\( D \)</span> nếu 
+                <span class="font-mono bg-white px-1.5 py-0.5 rounded border border-slate-200 font-bold">\( f(x) \le M \)</span> với mọi <span class="font-mono">\( x \in D \)</span> 
+                và tồn tại <span class="font-mono">\( x_0 \in D \)</span> sao cho:
+              </p>
+            </div>
+            <div class="flex flex-wrap items-center gap-2 mt-3 pt-2 border-t border-slate-200">
+              <span class="text-xs text-slate-600 font-semibold font-mono">\( f(x_0) = \)</span>
+              <input type="text" id="blank_1" placeholder="Nhập đáp án" class="text-sm font-mono font-bold px-3 py-1.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 w-44">
+              <span id="feedback_blank_1" class="text-xs font-semibold ml-2"></span>
+            </div>
+          </div>
+
+          <!-- Question 1.2 -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-100">
+            <div class="flex items-start gap-2 mb-2">
+              <span class="font-mono text-xs font-bold px-2 py-0.5 rounded bg-blue-200 text-blue-900">Câu 2</span>
+              <p class="text-sm text-slate-800 leading-relaxed font-medium">
+                Để tìm GTLN và GTNN của hàm số <span class="font-mono font-bold text-indigo-700">\( y = f(x) \)</span> liên tục trên đoạn <span class="font-mono font-bold">\( [a; b] \)</span>: 
+                Bước 1 ta tìm các điểm <span class="font-mono">\( x_1, x_2, \dots, x_n \in (a; b) \)</span> mà tại đó <span class="font-mono font-bold text-indigo-700">\( f'(x) = 0 \)</span> hoặc <span class="font-mono font-bold">\( f'(x) \)</span>:
+              </p>
+            </div>
+            <div class="flex flex-wrap items-center gap-2 mt-3 pt-2 border-t border-slate-200">
+              <input type="text" id="blank_2" placeholder="Gõ chữ" class="text-sm font-bold px-3 py-1.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 w-56">
+              <span id="feedback_blank_2" class="text-xs font-semibold ml-2"></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- DẠNG 2: GHÉP ĐÔI -->
+      <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 relative overflow-hidden transition-all hover:border-indigo-300">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center font-bold text-sm">
+              D2
+            </div>
+            <div>
+              <h3 class="font-extrabold text-base text-slate-900">Dạng 2: Ghép đôi tương ứng hàm số & cực trị</h3>
+              <p class="text-xs text-slate-500">Nối Cột A với kết quả chính xác tương ứng ở Cột B</p>
+            </div>
+          </div>
+          <span class="text-xs font-bold text-purple-600 bg-purple-50 px-2.5 py-1 rounded-full border border-purple-200">20 Điểm</span>
+        </div>
+
+        <div class="space-y-6">
+          <!-- Match 2.1 -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-100">
+            <div class="flex items-start gap-2 mb-3">
+              <span class="font-mono text-xs font-bold px-2 py-0.5 rounded bg-purple-200 text-purple-900">Câu 1</span>
+              <p class="text-sm font-semibold text-slate-800">
+                Cho hàm số <span class="font-mono text-indigo-700 font-bold">\( y = f(x) = x^2 - 2x \)</span> trên đoạn <span class="font-mono font-bold">\( [0; 3] \)</span>:
+              </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+              <div class="space-y-2">
+                <div class="text-xs font-bold text-slate-500 uppercase tracking-wider">Cột A (Đại lượng cần tìm)</div>
+                <div class="p-2.5 bg-white rounded-xl border border-slate-200 text-xs font-medium flex items-center justify-between">
+                  <span>1) Giá trị lớn nhất \(\max f(x)\) trên \([0; 3]\)</span>
+                  <select id="match_1_1" class="text-xs font-bold font-mono bg-purple-50 text-purple-800 border border-purple-200 rounded px-2 py-1">
+                    <option value="">Chọn</option>
+                    <option value="a">a) -1</option>
+                    <option value="b">b) 3</option>
+                    <option value="c">c) 1</option>
+                    <option value="d">d) 3</option>
+                  </select>
+                </div>
+                <div class="p-2.5 bg-white rounded-xl border border-slate-200 text-xs font-medium flex items-center justify-between">
+                  <span>2) Giá trị nhỏ nhất \(\min f(x)\) trên \([0; 3]\)</span>
+                  <select id="match_1_2" class="text-xs font-bold font-mono bg-purple-50 text-purple-800 border border-purple-200 rounded px-2 py-1">
+                    <option value="">Chọn</option>
+                    <option value="a">a) -1</option>
+                    <option value="b">b) 3</option>
+                    <option value="c">c) 1</option>
+                    <option value="d">d) 3</option>
+                  </select>
+                </div>
+                <div class="p-2.5 bg-white rounded-xl border border-slate-200 text-xs font-medium flex items-center justify-between">
+                  <span>3) Điểm \(x_0\) để \(f(x_0) = \max\)</span>
+                  <select id="match_1_3" class="text-xs font-bold font-mono bg-purple-50 text-purple-800 border border-purple-200 rounded px-2 py-1">
+                    <option value="">Chọn</option>
+                    <option value="a">a) -1</option>
+                    <option value="b">b) 3</option>
+                    <option value="c">c) 1</option>
+                    <option value="d">d) 3</option>
+                  </select>
+                </div>
+                <div class="p-2.5 bg-white rounded-xl border border-slate-200 text-xs font-medium flex items-center justify-between">
+                  <span>4) Điểm \(x_0\) để \(f(x_0) = \min\)</span>
+                  <select id="match_1_4" class="text-xs font-bold font-mono bg-purple-50 text-purple-800 border border-purple-200 rounded px-2 py-1">
+                    <option value="">Chọn</option>
+                    <option value="a">a) -1</option>
+                    <option value="b">b) 3</option>
+                    <option value="c">c) 1</option>
+                    <option value="d">d) 3</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <div class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Cột B (Giá trị tương ứng)</div>
+                <div class="bg-indigo-50/70 p-3 rounded-xl border border-indigo-100 space-y-2 text-xs font-mono text-slate-700">
+                  <div class="p-2 bg-white rounded border border-indigo-100 flex items-center justify-between">
+                    <span class="font-bold text-indigo-700">a) -1</span>
+                    <span class="text-[11px] text-slate-400 font-sans">Giá trị nhỏ nhất</span>
+                  </div>
+                  <div class="p-2 bg-white rounded border border-indigo-100 flex items-center justify-between">
+                    <span class="font-bold text-indigo-700">b) 3</span>
+                    <span class="text-[11px] text-slate-400 font-sans">Giá trị lớn nhất</span>
+                  </div>
+                  <div class="p-2 bg-white rounded border border-indigo-100 flex items-center justify-between">
+                    <span class="font-bold text-indigo-700">c) 1</span>
+                    <span class="text-[11px] text-slate-400 font-sans">Điểm tại đó đạt Min</span>
+                  </div>
+                  <div class="p-2 bg-white rounded border border-indigo-100 flex items-center justify-between">
+                    <span class="font-bold text-indigo-700">d) 3</span>
+                    <span class="text-[11px] text-slate-400 font-sans">Điểm tại đó đạt Max</span>
+                  </div>
+                </div>
+                <div id="feedback_match_1" class="mt-2 text-xs font-semibold"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Match 2.2 -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-100">
+            <div class="flex items-start gap-2 mb-3">
+              <span class="font-mono text-xs font-bold px-2 py-0.5 rounded bg-purple-200 text-purple-900">Câu 2</span>
+              <p class="text-sm font-semibold text-slate-800">
+                Nối hàm số chứa căn thức ở Cột A với kết quả GTLN/GTNN tương ứng ở Cột B:
+              </p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div class="space-y-2">
+                <div class="p-3 bg-white rounded-xl border border-slate-200 text-xs flex flex-col gap-2">
+                  <span class="font-bold text-slate-800">1) \( y = \sqrt{1 - x^2} \) trên đoạn \( [-1; 1] \)</span>
+                  <select id="match_2_1" class="text-xs font-bold font-mono bg-purple-50 text-purple-800 border border-purple-200 rounded px-2 py-1">
+                    <option value="">Chọn đáp án ghép</option>
+                    <option value="a">a) Max = 1 tại x = 1, Min = 0 tại x = 0 hoặc x = 2</option>
+                    <option value="b">b) Max = 1 tại x = 0, Min = 0 tại x = -1 hoặc x = 1</option>
+                  </select>
+                </div>
+                <div class="p-3 bg-white rounded-xl border border-slate-200 text-xs flex flex-col gap-2">
+                  <span class="font-bold text-slate-800">2) \( y = \sqrt{2x - x^2} \) trên đoạn \( [0; 2] \)</span>
+                  <select id="match_2_2" class="text-xs font-bold font-mono bg-purple-50 text-purple-800 border border-purple-200 rounded px-2 py-1">
+                    <option value="">Chọn đáp án ghép</option>
+                    <option value="a">a) Max = 1 tại x = 1, Min = 0 tại x = 0 hoặc x = 2</option>
+                    <option value="b">b) Max = 1 tại x = 0, Min = 0 tại x = -1 hoặc x = 1</option>
+                  </select>
+                </div>
+              </div>
+              <div class="p-3 bg-indigo-50/60 rounded-xl border border-indigo-100 text-xs space-y-2">
+                <div class="font-semibold text-slate-700">Cột B (Lời giải kết quả):</div>
+                <p class="text-slate-600 bg-white p-2 rounded border border-slate-200 font-mono">
+                  <b>a)</b> Max = 1 tại x = 1, Min = 0 tại x = 0 hoặc x = 2
+                </p>
+                <p class="text-slate-600 bg-white p-2 rounded border border-slate-200 font-mono">
+                  <b>b)</b> Max = 1 tại x = 0, Min = 0 tại x = -1 hoặc x = 1
+                </p>
+                <div id="feedback_match_2" class="mt-2 text-xs font-semibold"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- DẠNG 3: ĐÚNG SAI -->
+      <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 relative overflow-hidden transition-all hover:border-indigo-300">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm">
+              D3
+            </div>
+            <div>
+              <h3 class="font-extrabold text-base text-slate-900">Dạng 3: Câu hỏi Trắc nghiệm Đúng / Sai</h3>
+              <p class="text-xs text-slate-500">2 câu (mỗi câu gồm 4 nhận định a, b, c, d chuẩn format KNTT 2025)</p>
+            </div>
+          </div>
+          <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">20 Điểm</span>
+        </div>
+
+        <div class="space-y-6">
+          <!-- Question 3.1 -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-100">
+            <div class="mb-3">
+              <span class="font-mono text-xs font-bold px-2 py-0.5 rounded bg-emerald-200 text-emerald-900 mr-2">Câu 1</span>
+              <span class="text-sm font-bold text-slate-800">Xét hàm số \( y = \sqrt{1 - x^2} \) trên đoạn \( [-1; 1] \):</span>
+            </div>
+            
+            <div class="space-y-2">
+              <!-- Item a -->
+              <div class="p-3 bg-white rounded-xl border border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs">
+                <span class="text-slate-800 font-medium"><b>a)</b> Tập xác định của hàm số là \( D = [-1; 1] \).</span>
+                <div class="flex items-center gap-3 shrink-0">
+                  <label class="inline-flex items-center gap-1 cursor-pointer font-semibold text-slate-700">
+                    <input type="radio" name="tf_1_a" value="dung" class="text-emerald-600 focus:ring-emerald-500"> Đúng
+                  </label>
+                  <label class="inline-flex items-center gap-1 cursor-pointer font-semibold text-slate-700">
+                    <input type="radio" name="tf_1_a" value="sai" class="text-rose-600 focus:ring-rose-500"> Sai
+                  </label>
+                  <span id="feedback_tf_1_a" class="w-5 text-center"></span>
+                </div>
+              </div>
+              <!-- Item b -->
+              <div class="p-3 bg-white rounded-xl border border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs">
+                <span class="text-slate-800 font-medium"><b>b)</b> Đạo hàm \( y' = \frac{-x}{\sqrt{1 - x^2}} \) có nghiệm \( x = 0 \in (-1; 1) \).</span>
+                <div class="flex items-center gap-3 shrink-0">
+                  <label class="inline-flex items-center gap-1 cursor-pointer font-semibold text-slate-700">
+                    <input type="radio" name="tf_1_b" value="dung" class="text-emerald-600 focus:ring-emerald-500"> Đúng
+                  </label>
+                  <label class="inline-flex items-center gap-1 cursor-pointer font-semibold text-slate-700">
+                    <input type="radio" name="tf_1_b" value="sai" class="text-rose-600 focus:ring-rose-500"> Sai
+                  </label>
+                  <span id="feedback_tf_1_b" class="w-5 text-center"></span>
+                </div>
+              </div>
+              <!-- Item c -->
+              <div class="p-3 bg-white rounded-xl border border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs">
+                <span class="text-slate-800 font-medium"><b>c)</b> Giá trị lớn nhất của hàm số trên \( [-1; 1] \) bằng \( 1 \) tại \( x = 0 \).</span>
+                <div class="flex items-center gap-3 shrink-0">
+                  <label class="inline-flex items-center gap-1 cursor-pointer font-semibold text-slate-700">
+                    <input type="radio" name="tf_1_c" value="dung" class="text-emerald-600 focus:ring-emerald-500"> Đúng
+                  </label>
+                  <label class="inline-flex items-center gap-1 cursor-pointer font-semibold text-slate-700">
+                    <input type="radio" name="tf_1_c" value="sai" class="text-rose-600 focus:ring-rose-500"> Sai
+                  </label>
+                  <span id="feedback_tf_1_c" class="w-5 text-center"></span>
+                </div>
+              </div>
+              <!-- Item d -->
+              <div class="p-3 bg-white rounded-xl border border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs">
+                <span class="text-slate-800 font-medium"><b>d)</b> Giá trị nhỏ nhất của hàm số trên \( [-1; 1] \) bằng \( -1 \) tại \( x = -1 \).</span>
+                <div class="flex items-center gap-3 shrink-0">
+                  <label class="inline-flex items-center gap-1 cursor-pointer font-semibold text-slate-700">
+                    <input type="radio" name="tf_1_d" value="dung" class="text-emerald-600 focus:ring-emerald-500"> Đúng
+                  </label>
+                  <label class="inline-flex items-center gap-1 cursor-pointer font-semibold text-slate-700">
+                    <input type="radio" name="tf_1_d" value="sai" class="text-rose-600 focus:ring-rose-500"> Sai
+                  </label>
+                  <span id="feedback_tf_1_d" class="w-5 text-center"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Question 3.2 -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-100">
+            <div class="mb-3">
+              <span class="font-mono text-xs font-bold px-2 py-0.5 rounded bg-emerald-200 text-emerald-900 mr-2">Câu 2</span>
+              <span class="text-sm font-bold text-slate-800">Mô hình virus \( N(t) = -t^3 + 12t^2 \) với \( t \in [0; 12] \) (\(t\): tuần, \(N\): trăm người):</span>
+            </div>
+            
+            <div class="space-y-2">
+              <div class="p-3 bg-white rounded-xl border border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs">
+                <span class="text-slate-800 font-medium"><b>a)</b> Đạo hàm \( N'(t) = -3t^2 + 24t = 0 \) có nghiệm \( t = 8 \in (0; 12) \).</span>
+                <div class="flex items-center gap-3 shrink-0">
+                  <label class="inline-flex items-center gap-1 cursor-pointer font-semibold text-slate-700">
+                    <input type="radio" name="tf_2_a" value="dung" class="text-emerald-600 focus:ring-emerald-500"> Đúng
+                  </label>
+                  <label class="inline-flex items-center gap-1 cursor-pointer font-semibold text-slate-700">
+                    <input type="radio" name="tf_2_a" value="sai" class="text-rose-600 focus:ring-rose-500"> Sai
+                  </label>
+                  <span id="feedback_tf_2_a" class="w-5 text-center"></span>
+                </div>
+              </div>
+              <div class="p-3 bg-white rounded-xl border border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs">
+                <span class="text-slate-800 font-medium"><b>b)</b> Số người bị nhiễm bệnh tối đa là 256 trăm người (25.600 người).</span>
+                <div class="flex items-center gap-3 shrink-0">
+                  <label class="inline-flex items-center gap-1 cursor-pointer font-semibold text-slate-700">
+                    <input type="radio" name="tf_2_b" value="dung" class="text-emerald-600 focus:ring-emerald-500"> Đúng
+                  </label>
+                  <label class="inline-flex items-center gap-1 cursor-pointer font-semibold text-slate-700">
+                    <input type="radio" name="tf_2_b" value="sai" class="text-rose-600 focus:ring-rose-500"> Sai
+                  </label>
+                  <span id="feedback_tf_2_b" class="w-5 text-center"></span>
+                </div>
+              </div>
+              <div class="p-3 bg-white rounded-xl border border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs">
+                <span class="text-slate-800 font-medium"><b>c)</b> Tốc độ lây lan truyền bệnh biểu thị bởi đạo hàm \( N'(t) \).</span>
+                <div class="flex items-center gap-3 shrink-0">
+                  <label class="inline-flex items-center gap-1 cursor-pointer font-semibold text-slate-700">
+                    <input type="radio" name="tf_2_c" value="dung" class="text-emerald-600 focus:ring-emerald-500"> Đúng
+                  </label>
+                  <label class="inline-flex items-center gap-1 cursor-pointer font-semibold text-slate-700">
+                    <input type="radio" name="tf_2_c" value="sai" class="text-rose-600 focus:ring-rose-500"> Sai
+                  </label>
+                  <span id="feedback_tf_2_c" class="w-5 text-center"></span>
+                </div>
+              </div>
+              <div class="p-3 bg-white rounded-xl border border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs">
+                <span class="text-slate-800 font-medium"><b>d)</b> Dịch bệnh lây lan nhanh nhất (tốc độ Max) sau \( t = 8 \) tuần.</span>
+                <div class="flex items-center gap-3 shrink-0">
+                  <label class="inline-flex items-center gap-1 cursor-pointer font-semibold text-slate-700">
+                    <input type="radio" name="tf_2_d" value="dung" class="text-emerald-600 focus:ring-emerald-500"> Đúng
+                  </label>
+                  <label class="inline-flex items-center gap-1 cursor-pointer font-semibold text-slate-700">
+                    <input type="radio" name="tf_2_d" value="sai" class="text-rose-600 focus:ring-rose-500"> Sai
+                  </label>
+                  <span id="feedback_tf_2_d" class="w-5 text-center"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- DẠNG 4: TRẮC NGHIỆM 4 LỰA CHỌN -->
+      <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 relative overflow-hidden transition-all hover:border-indigo-300">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-sm">
+              D4
+            </div>
+            <div>
+              <h3 class="font-extrabold text-base text-slate-900">Dạng 4: Trắc nghiệm 4 lựa chọn (A, B, C, D)</h3>
+              <p class="text-xs text-slate-500">2 câu • Chọn một phương án đúng duy nhất</p>
+            </div>
+          </div>
+          <span class="text-xs font-bold text-amber-600 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200">20 Điểm</span>
+        </div>
+
+        <div class="space-y-5">
+          <!-- Question 4.1 -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-100">
+            <div class="flex items-start gap-2 mb-3">
+              <span class="font-mono text-xs font-bold px-2 py-0.5 rounded bg-amber-200 text-amber-900">Câu 1</span>
+              <p class="text-sm font-semibold text-slate-800">
+                Cho hàm số \( y = f(x) = x^3 - 2x^2 + 1 \) trên đoạn \( [-1; 2] \). Giá trị nhỏ nhất của hàm số trên đoạn \( [-1; 2] \) bằng bao nhiêu?
+              </p>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+              <label class="flex items-center gap-2 p-2.5 bg-white rounded-xl border border-slate-200 hover:border-amber-400 cursor-pointer transition text-xs font-bold">
+                <input type="radio" name="mcq_1" value="A" class="text-amber-500"> A. \( 1 \)
+              </label>
+              <label class="flex items-center gap-2 p-2.5 bg-white rounded-xl border border-slate-200 hover:border-amber-400 cursor-pointer transition text-xs font-bold">
+                <input type="radio" name="mcq_1" value="B" class="text-amber-500"> B. \( -2 \)
+              </label>
+              <label class="flex items-center gap-2 p-2.5 bg-white rounded-xl border border-slate-200 hover:border-amber-400 cursor-pointer transition text-xs font-bold">
+                <input type="radio" name="mcq_1" value="C" class="text-amber-500"> C. \( 0 \)
+              </label>
+              <label class="flex items-center gap-2 p-2.5 bg-white rounded-xl border border-slate-200 hover:border-amber-400 cursor-pointer transition text-xs font-bold">
+                <input type="radio" name="mcq_1" value="D" class="text-amber-500"> D. \( -\frac{5}{27} \)
+              </label>
+            </div>
+            <div id="feedback_mcq_1" class="mt-2 text-xs font-semibold"></div>
+          </div>
+
+          <!-- Question 4.2 -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-100">
+            <div class="flex items-start gap-2 mb-3">
+              <span class="font-mono text-xs font-bold px-2 py-0.5 rounded bg-amber-200 text-amber-900">Câu 2</span>
+              <p class="text-sm font-semibold text-slate-800">
+                Sự lây lan của một loại virus được mô hình hóa bởi \( N(t) = -t^3 + 12t^2 \) với \( t \in [0; 12] \) (tuần). Số người tối đa bị nhiễm bệnh đạt được tại thời điểm \( t \) bằng:
+              </p>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+              <label class="flex items-center gap-2 p-2.5 bg-white rounded-xl border border-slate-200 hover:border-amber-400 cursor-pointer transition text-xs font-bold">
+                <input type="radio" name="mcq_2" value="A" class="text-amber-500"> A. \( t = 4 \) tuần
+              </label>
+              <label class="flex items-center gap-2 p-2.5 bg-white rounded-xl border border-slate-200 hover:border-amber-400 cursor-pointer transition text-xs font-bold">
+                <input type="radio" name="mcq_2" value="B" class="text-amber-500"> B. \( t = 0 \) tuần
+              </label>
+              <label class="flex items-center gap-2 p-2.5 bg-white rounded-xl border border-slate-200 hover:border-amber-400 cursor-pointer transition text-xs font-bold">
+                <input type="radio" name="mcq_2" value="C" class="text-amber-500"> C. \( t = 8 \) tuần
+              </label>
+              <label class="flex items-center gap-2 p-2.5 bg-white rounded-xl border border-slate-200 hover:border-amber-400 cursor-pointer transition text-xs font-bold">
+                <input type="radio" name="mcq_2" value="D" class="text-amber-500"> D. \( t = 12 \) tuần
+              </label>
+            </div>
+            <div id="feedback_mcq_2" class="mt-2 text-xs font-semibold"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- DẠNG 5: TỰ LUẬN -->
+      <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 relative overflow-hidden transition-all hover:border-indigo-300">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-rose-100 text-rose-700 flex items-center justify-center font-bold text-sm">
+              D5
+            </div>
+            <div>
+              <h3 class="font-extrabold text-base text-slate-900">Dạng 5: Tự luận rèn luyện phương pháp 3 bước</h3>
+              <p class="text-xs text-slate-500">2 bài tập trọng tâm • Trình bày các bước tìm max/min & tính số người nhiễm</p>
+            </div>
+          </div>
+          <span class="text-xs font-bold text-rose-600 bg-rose-50 px-2.5 py-1 rounded-full border border-rose-200">20 Điểm</span>
+        </div>
+
+        <div class="space-y-5">
+          <!-- Essay 5.1 -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-100">
+            <div class="flex items-start gap-2 mb-2">
+              <span class="font-mono text-xs font-bold px-2 py-0.5 rounded bg-rose-200 text-rose-900">Bài 1</span>
+              <p class="text-sm font-semibold text-slate-800">
+                Tìm giá trị lớn nhất và giá trị nhỏ nhất của hàm số \( y = f(x) = 2x^3 - 3x^2 + 5x + 2 \) trên đoạn \( [0; 2] \).
+              </p>
+            </div>
+            <p class="text-xs text-slate-500 mb-2 italic">Gợi ý kiểm tra: Điền kết quả Max và Min mà bạn tìm được:</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-bold text-slate-600 font-mono">Max trên \( [0; 2] \):</span>
+                <input type="number" id="essay_max_1" placeholder="Nhập số" class="w-28 px-3 py-1.5 rounded-lg border border-slate-300 text-xs font-mono font-bold focus:ring-2 focus:ring-rose-500 focus:outline-none">
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-bold text-slate-600 font-mono">Min trên \( [0; 2] \):</span>
+                <input type="number" id="essay_min_1" placeholder="Nhập số" class="w-28 px-3 py-1.5 rounded-lg border border-slate-300 text-xs font-mono font-bold focus:ring-2 focus:ring-rose-500 focus:outline-none">
+              </div>
+            </div>
+            <textarea id="essay_step_1" rows="3" placeholder="Ghi tóm tắt 3 bước: 1) Tính f'(x), 2) Tính các giá trị f(x_i), 3) Kết luận..." class="w-full text-xs p-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-rose-400 bg-white font-mono"></textarea>
+            <div id="feedback_essay_1" class="mt-1 text-xs font-semibold"></div>
+          </div>
+
+          <!-- Essay 5.2 -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-100">
+            <div class="flex items-start gap-2 mb-2">
+              <span class="font-mono text-xs font-bold px-2 py-0.5 rounded bg-rose-200 text-rose-900">Bài 2</span>
+              <p class="text-sm font-semibold text-slate-800">
+                Sự lây lan virus mô hình hóa bởi \( N(t) = -t^3 + 12t^2 \) (\( t \in [0; 12] \)). Hãy ước tính số người tối đa bị nhiễm bệnh ở địa phương (đơn vị: người).
+              </p>
+            </div>
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-xs font-bold text-slate-600">Số người tối đa (người):</span>
+              <input type="text" id="essay_val_2" placeholder="Nhập số" class="w-36 px-3 py-1.5 rounded-lg border border-slate-300 text-xs font-mono font-bold focus:ring-2 focus:ring-rose-500 focus:outline-none">
+            </div>
+            <textarea id="essay_step_2" rows="2" placeholder="Ghi chú nhận xét thời điểm đạt cực đại và nhân với hệ số trăm người..." class="w-full text-xs p-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-rose-400 bg-white font-mono"></textarea>
+            <div id="feedback_essay_2" class="mt-1 text-xs font-semibold"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FOOTER & ĐÁNH GIÁ -->
+      <footer class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 space-y-4">
+        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Tự đánh giá mức độ hiểu bài:</span>
+            <div class="flex flex-wrap items-center gap-4 mt-2 text-xs font-semibold text-slate-700">
+              <label class="inline-flex items-center gap-1.5 cursor-pointer">
+                <input type="radio" name="self_eval" value="need_effort" class="text-indigo-600"> Cần cố gắng
+              </label>
+              <label class="inline-flex items-center gap-1.5 cursor-pointer">
+                <input type="radio" name="self_eval" value="understood" class="text-indigo-600"> Đã hiểu
+              </label>
+              <label class="inline-flex items-center gap-1.5 cursor-pointer">
+                <input type="radio" name="self_eval" value="excellent" class="text-indigo-600" checked> Hoàn thành tốt
+              </label>
+            </div>
+          </div>
+
+          <div class="w-full md:w-auto">
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-500 block mb-1">Điều em còn thắc mắc:</span>
+            <input type="text" placeholder="Ghi chú lại điều chưa rõ cần thầy cô giải đáp..." class="w-full md:w-80 text-xs px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-400">
+          </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-2">
+          <p>© 2026 Phiếu học tập tương tác Toán 12 - Bộ sách Kết nối tri thức với cuộc sống.</p>
+          <p class="font-semibold text-indigo-700">Thiết kế bởi CasioPro Datdong</p>
+        </div>
+      </footer>
+
+    </div>
+  </main>
+
+  <!-- MODAL: QR Code Scanner & Sharing -->
+  <div id="qrModal" class="no-print fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl p-6 max-w-sm w-full shadow-2xl border border-slate-100 text-center relative animate-in fade-in zoom-in duration-150">
+      <button onclick="closeQrModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-3 text-xl shadow-inner">
+        <i class="fa-solid fa-qrcode"></i>
+      </div>
+
+      <h3 class="font-extrabold text-slate-900 text-lg">Mã QR Làm Bài Trực Tuyến</h3>
+      <p class="text-xs text-slate-500 mt-1 mb-4 leading-relaxed">
+        Học sinh dùng Zalo hoặc Camera điện thoại quét mã QR bên dưới để mở phiếu học tập tương tác này trên điện thoại/máy tính bảng:
+      </p>
+
+      <div class="p-3 bg-slate-50 border-2 border-indigo-100 rounded-2xl inline-block mx-auto shadow-sm">
+        <div id="modal-qrcode-container" class="w-48 h-48 flex items-center justify-center mx-auto"></div>
+      </div>
+
+      <div class="mt-4 p-2 bg-indigo-50 rounded-xl border border-indigo-100 text-[11px] text-indigo-800 font-mono break-all" id="qr-url-text">
+        <!-- URL will be dynamically placed here -->
+      </div>
+
+      <div class="mt-4 flex gap-2">
+        <button onclick="copyShareLink()" class="flex-1 py-2 px-3 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl transition flex items-center justify-center gap-1.5">
+          <i class="fa-regular fa-copy"></i> Sao chép link
+        </button>
+        <button onclick="closeQrModal()" class="flex-1 py-2 px-3 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl transition">
+          Đóng
+        </button>
+      </div>
+      <div id="copy-status" class="text-[11px] text-emerald-600 font-bold mt-2 h-4"></div>
+    </div>
+  </div>
+
+  <script>
+    /* Tone.js Sound system */
+    let soundEnabled = true;
+    let synth = null;
+
+    function initAudio() {
+      if (!synth && window.Tone) {
+        synth = new Tone.PolySynth(Tone.Synth).toDestination();
+        synth.volume.value = -8;
+      }
+    }
+
+    function playTone(type) {
+      if (!soundEnabled) return;
+      try {
+        initAudio();
+        Tone.start();
+        if (type === 'correct') {
+          synth.triggerAttackRelease(["E5", "G#5", "B5"], "16n");
+        } else if (type === 'wrong') {
+          synth.triggerAttackRelease(["C4", "Bb3"], "16n");
+        } else if (type === 'complete') {
+          synth.triggerAttackRelease(["C5", "E5", "G5", "C6"], "8n");
+        }
+      } catch (e) {
+        console.warn('Audio note error:', e);
+      }
+    }
+
+    function toggleSound() {
+      soundEnabled = !soundEnabled;
+      const icon = document.getElementById('sound-icon');
+      if (soundEnabled) {
+        icon.className = 'fa-solid fa-volume-high text-indigo-600';
+      } else {
+        icon.className = 'fa-solid fa-volume-xmark text-slate-400';
+      }
+    }
+
+    /* Live Student Info Sync */
+    function updateLiveStudentBadge() {
+      const name = document.getElementById('student_name').value.trim();
+      const sClass = document.getElementById('student_class').value.trim();
+      const stt = document.getElementById('student_stt').value.trim();
+      // Generate updated link in QR if desired
+    }
+
+    /* Khóa / Mở Khóa Bài Làm */
+    function startQuiz() {
+      const hoTen = document.getElementById('student_name').value.trim();
+      const lop = document.getElementById('student_class').value.trim();
+      const stt = document.getElementById('student_stt').value.trim();
+      const errorMsg = document.getElementById('start-error-msg');
+
+      if (!hoTen || !lop || !stt) {
+          errorMsg.classList.remove('hidden');
+          if (!hoTen) document.getElementById('student_name').classList.add('ring-2', 'ring-rose-500');
+          if (!lop) document.getElementById('student_class').classList.add('ring-2', 'ring-rose-500');
+          if (!stt) document.getElementById('student_stt').classList.add('ring-2', 'ring-rose-500');
+          
+          setTimeout(() => {
+              document.getElementById('student_name').classList.remove('ring-2', 'ring-rose-500');
+              document.getElementById('student_class').classList.remove('ring-2', 'ring-rose-500');
+              document.getElementById('student_stt').classList.remove('ring-2', 'ring-rose-500');
+          }, 2500);
+          return;
+      }
+
+      // Hợp lệ -> Mở khóa
+      errorMsg.classList.add('hidden');
+      const startBtn = document.getElementById('btn-start-quiz');
+      startBtn.innerHTML = '<i class="fa-solid fa-check"></i> Đang làm bài...';
+      startBtn.classList.replace('bg-indigo-600', 'bg-emerald-600');
+      startBtn.classList.replace('hover:bg-indigo-700', 'hover:bg-emerald-700');
+      startBtn.disabled = true;
+      
+      // Chặn chỉnh sửa thông tin
+      document.getElementById('student_name').readOnly = true;
+      document.getElementById('student_class').readOnly = true;
+      document.getElementById('student_stt').readOnly = true;
+
+      // Mở khóa vùng làm bài
+      const quizContainer = document.getElementById('quiz-container');
+      quizContainer.classList.remove('opacity-50', 'blur-[2px]', 'pointer-events-none');
+      document.getElementById('quiz-lock-overlay').classList.add('hidden');
+      
+      // Bật nút Chấm Điểm
+      const btnGrade = document.getElementById('btn-grade');
+      btnGrade.disabled = false;
+      btnGrade.classList.remove('opacity-50', 'cursor-not-allowed');
+      btnGrade.classList.add('hover:shadow-indigo-300');
+    }
+
+    /* Interactive Graph Canvas with Chart.js */
+    let chartInstance = null;
+
+    const graphConfigs = {
+      parabola: {
+        title: 'y = x² - 2x trên [0; 3]',
+        details: 'Hàm số: f(x) = x² - 2x trên [0; 3]<br>• Max = 3 tại x = 3<br>• Min = -1 tại x = 1 (Đỉnh Parabol f\'(1)=0)',
+        labels: [0, 0.5, 1, 1.5, 2, 2.5, 3],
+        data: [0, -0.75, -1, -0.75, 0, 1.25, 3],
+        color: '#06b6d4',
+        minPoint: { x: 1, y: -1 },
+        maxPoint: { x: 3, y: 3 }
+      },
+      circle: {
+        title: 'y = √(1 - x²) trên [-1; 1]',
+        details: 'Hàm số: f(x) = √(1 - x²) trên [-1; 1]<br>• Max = 1 tại x = 0 (f\'(0)=0)<br>• Min = 0 tại x = -1 hoặc x = 1',
+        labels: [-1, -0.75, -0.5, 0, 0.5, 0.75, 1],
+        data: [0, 0.66, 0.866, 1, 0.866, 0.66, 0],
+        color: '#f59e0b',
+        minPoint: { x: -1, y: 0 },
+        maxPoint: { x: 0, y: 1 }
+      },
+      virus: {
+        title: 'N(t) = -t³ + 12t² (trăm người) trên [0; 12]',
+        details: 'Hàm dịch bệnh: N(t) = -t³ + 12t²<br>• Đạo hàm N\'(t) = -3t² + 24t = 0 ⇒ t = 8<br>• Số ca tối đa = N(8) = 256 trăm người (25.600 người)',
+        labels: [0, 2, 4, 6, 8, 10, 12],
+        data: [0, 40, 128, 216, 256, 200, 0],
+        color: '#f43f5e',
+        minPoint: { x: 0, y: 0 },
+        maxPoint: { x: 8, y: 256 }
+      },
+      cubic: {
+        title: 'y = x³ - 2x² + 1 trên [-1; 2]',
+        details: 'Hàm số: f(x) = x³ - 2x² + 1 trên [-1; 2]<br>• Nghiệm f\'(x)=3x²-4x=0 ⇒ x=0, x=4/3<br>• f(-1)=-2 (Min), f(0)=1, f(4/3)=-5/27, f(2)=1 (Max)',
+        labels: [-1, -0.5, 0, 0.67, 1.33, 1.67, 2],
+        data: [-2, 0.375, 1, 0.40, -0.185, 0.08, 1],
+        color: '#10b981',
+        minPoint: { x: -1, y: -2 },
+        maxPoint: { x: 0, y: 1 }
+      }
+    };
+
+    function renderInteractiveGraph(type) {
+      const config = graphConfigs[type];
+      if (!config) return;
+
+      // Update button visual styles
+      document.querySelectorAll('.graph-btn').forEach(btn => {
+        btn.classList.remove('bg-indigo-700/60', 'active', 'border-indigo-400/40');
+        btn.classList.add('bg-indigo-900/60', 'border-indigo-700/60');
+      });
+      event?.currentTarget?.classList?.add('bg-indigo-700/60', 'active', 'border-indigo-400/40');
+
+      document.getElementById('graph-details').innerHTML = config.details;
+
+      const ctx = document.getElementById('interactiveCanvas').getContext('2d');
+      if (chartInstance) {
+        chartInstance.destroy();
+      }
+
+      chartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: config.labels,
+          datasets: [{
+            label: config.title,
+            data: config.data,
+            borderColor: config.color,
+            backgroundColor: `${config.color}22`,
+            borderWidth: 3,
+            fill: true,
+            tension: 0.35,
+            pointBackgroundColor: config.color,
+            pointRadius: 4,
+            pointHoverRadius: 7
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              labels: {
+                color: '#e2e8f0',
+                font: { family: 'Plus Jakarta Sans', size: 11, weight: 'bold' }
+              }
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return `Giá trị y = ${context.parsed.y}`;
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              ticks: { color: '#94a3b8', font: { size: 10 } },
+              grid: { color: 'rgba(255,255,255,0.06)' }
+            },
+            y: {
+              ticks: { color: '#94a3b8', font: { size: 10 } },
+              grid: { color: 'rgba(255,255,255,0.06)' }
+            }
+          }
+        }
+      });
+    }
+
+    /* QR Code Generator */
+    function initQrCodes() {
+      const currentUrl = window.location.href;
+      document.getElementById('qr-url-text').innerText = currentUrl;
+
+      // Quick Preview QR
+      const quickContainer = document.getElementById('quick-qr-code');
+      quickContainer.innerHTML = "";
+      new QRCode(quickContainer, {
+        text: currentUrl,
+        width: 80,
+        height: 80,
+        colorDark: "#312e81",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.M
+      });
+
+      // Modal Full QR
+      const modalContainer = document.getElementById('modal-qrcode-container');
+      modalContainer.innerHTML = "";
+      new QRCode(modalContainer, {
+        text: currentUrl,
+        width: 190,
+        height: 190,
+        colorDark: "#1e1b4b",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+      });
+    }
+
+    function openQrModal() {
+      document.getElementById('qrModal').classList.remove('hidden');
+    }
+
+    function closeQrModal() {
+      document.getElementById('qrModal').classList.add('hidden');
+    }
+
+    function copyShareLink() {
+      const url = window.location.href;
+      const copyArea = document.createElement("textarea");
+      copyArea.value = url;
+      document.body.appendChild(copyArea);
+      copyArea.select();
+      try {
+        document.execCommand('copy');
+        document.getElementById('copy-status').innerText = 'Đã sao chép liên kết vào bộ nhớ tạm!';
+        setTimeout(() => {
+          document.getElementById('copy-status').innerText = '';
+        }, 2500);
+      } catch (err) {
+        document.getElementById('copy-status').innerText = 'Không thể sao chép tự động.';
+      }
+      document.body.removeChild(copyArea);
+    }
+
+    function checkAllWorksheet() {
+      let score = 0;
+      let totalQuestions = 0;
+
+      // DẠNG 1: Điền khuyết (20 điểm -> 10 đ mỗi câu)
+      const b1 = document.getElementById('blank_1').value.trim().toLowerCase();
+      const fb1 = document.getElementById('feedback_blank_1');
+      if (b1 === 'm' || b1 === 'giá trị m' || b1 === 'm.') {
+        score += 10;
+        fb1.innerHTML = '<span class="text-emerald-600 font-bold"><i class="fa-solid fa-circle-check"></i> Đúng (M)</span>';
+      } else {
+        fb1.innerHTML = '<span class="text-rose-500 font-bold"><i class="fa-solid fa-circle-xmark"></i> Cần điền: M</span>';
+      }
+
+      const b2 = document.getElementById('blank_2').value.trim().toLowerCase();
+      const fb2 = document.getElementById('feedback_blank_2');
+      if (b2.includes('không xác định') || b2.includes('khong xac dinh')) {
+        score += 10;
+        fb2.innerHTML = '<span class="text-emerald-600 font-bold"><i class="fa-solid fa-circle-check"></i> Chính xác!</span>';
+      } else {
+        fb2.innerHTML = '<span class="text-rose-500 font-bold"><i class="fa-solid fa-circle-xmark"></i> Cần điền: không xác định</span>';
+      }
+
+      // DẠNG 2: Ghép đôi (20 điểm)
+      // Câu 1: 1->b (hoặc d = 3), 2->a (-1), 3->b/d (3), 4->c (1)
+      const m1_1 = document.getElementById('match_1_1').value; // Max = 3 (b or d)
+      const m1_2 = document.getElementById('match_1_2').value; // Min = -1 (a)
+      const m1_3 = document.getElementById('match_1_3').value; // x0 Max = 3 (b or d)
+      const m1_4 = document.getElementById('match_1_4').value; // x0 Min = 1 (c)
+
+      let match1Correct = 0;
+      if (m1_1 === 'b' || m1_1 === 'd') match1Correct++;
+      if (m1_2 === 'a') match1Correct++;
+      if (m1_3 === 'd' || m1_3 === 'b') match1Correct++;
+      if (m1_4 === 'c') match1Correct++;
+
+      const fbMatch1 = document.getElementById('feedback_match_1');
+      if (match1Correct === 4) {
+        score += 10;
+        fbMatch1.innerHTML = '<span class="text-emerald-600 font-bold"><i class="fa-solid fa-circle-check"></i> Ghép Câu 1 chính xác 4/4! (+10đ)</span>';
+      } else {
+        score += match1Correct * 2.5;
+        fbMatch1.innerHTML = `<span class="text-amber-600 font-bold">Đúng ${match1Correct}/4 cặp tương ứng (+${match1Correct * 2.5}đ)</span>`;
+      }
+
+      // Câu 2: 1->b, 2->a
+      const m2_1 = document.getElementById('match_2_1').value;
+      const m2_2 = document.getElementById('match_2_2').value;
+      const fbMatch2 = document.getElementById('feedback_match_2');
+      let match2Count = 0;
+      if (m2_1 === 'b') match2Count++;
+      if (m2_2 === 'a') match2Count++;
+      score += match2Count * 5;
+      if (match2Count === 2) {
+        fbMatch2.innerHTML = '<span class="text-emerald-600 font-bold"><i class="fa-solid fa-circle-check"></i> Ghép Câu 2 chính xác hoàn toàn! (+10đ)</span>';
+      } else {
+        fbMatch2.innerHTML = `<span class="text-amber-600 font-bold">Đúng ${match2Count}/2 cặp (+${match2Count * 5}đ)</span>`;
+      }
+
+      // DẠNG 3: Đúng / Sai (20 điểm -> 8 ý, 2.5đ mỗi ý)
+      const tfAnswers = {
+        tf_1_a: 'dung', // D = [-1; 1] -> Đúng
+        tf_1_b: 'dung', // y' = -x / ... nghiệm x = 0 -> Đúng
+        tf_1_c: 'dung', // Max = 1 tại x = 0 -> Đúng
+        tf_1_d: 'sai',  // Min = 0 tại x = ±1 (không phải -1) -> Sai
+        tf_2_a: 'dung', // N'(t) = -3t² + 24t = 0 có nghiệm t = 8 -> Đúng
+        tf_2_b: 'dung', // N(8) = 256 trăm người -> Đúng
+        tf_2_c: 'dung', // Tốc độ là đạo hàm -> Đúng
+        tf_2_d: 'sai'   // Tốc độ lây lan nhanh nhất tại t = 4 (đỉnh của parabol N'(t)), không phải t=8 -> Sai
+      };
+
+      for (const [key, correctVal] of Object.entries(tfAnswers)) {
+        const checked = document.querySelector(`input[name="${key}"]:checked`);
+        const fbEl = document.getElementById(`feedback_${key}`);
+        if (checked && checked.value === correctVal) {
+          score += 2.5;
+          fbEl.innerHTML = '<i class="fa-solid fa-check text-emerald-600 font-bold"></i>';
+        } else {
+          fbEl.innerHTML = '<i class="fa-solid fa-xmark text-rose-500 font-bold"></i>';
+        }
+      }
+
+      // DẠNG 4: Trắc nghiệm (20 điểm -> 10đ mỗi câu)
+      // Câu 1: Min của x³ - 2x² + 1 trên [-1; 2] là -2 tại x = -1 -> B
+      const mcq1 = document.querySelector('input[name="mcq_1"]:checked');
+      const fbMcq1 = document.getElementById('feedback_mcq_1');
+      if (mcq1 && mcq1.value === 'B') {
+        score += 10;
+        fbMcq1.innerHTML = '<span class="text-emerald-600 font-bold"><i class="fa-solid fa-circle-check"></i> Chính xác: Đáp án B (-2) (+10đ)</span>';
+      } else {
+        fbMcq1.innerHTML = '<span class="text-rose-500 font-bold"><i class="fa-solid fa-circle-xmark"></i> Sai rồi! Đáp án đúng là B (-2 tại x = -1)</span>';
+      }
+
+      // Câu 2: Số người nhiễm tối đa tại t = 8 tuần -> C
+      const mcq2 = document.querySelector('input[name="mcq_2"]:checked');
+      const fbMcq2 = document.getElementById('feedback_mcq_2');
+      if (mcq2 && mcq2.value === 'C') {
+        score += 10;
+        fbMcq2.innerHTML = '<span class="text-emerald-600 font-bold"><i class="fa-solid fa-circle-check"></i> Chính xác: Đáp án C (t = 8 tuần) (+10đ)</span>';
+      } else {
+        fbMcq2.innerHTML = '<span class="text-rose-500 font-bold"><i class="fa-solid fa-circle-xmark"></i> Sai rồi! Đạt cực đại tại t = 8 tuần (Đáp án C)</span>';
+      }
+
+      // DẠNG 5: Tự luận (20 điểm -> 10đ mỗi bài)
+      // Bài 1: f(x) = 2x³ - 3x² + 5x + 2 trên [0; 2]
+      // f'(x) = 6x² - 6x + 5 có Delta = 36 - 120 < 0 => f'(x) > 0 với mọi x (hàm đồng biến)
+      // => Min = f(0) = 2, Max = f(2) = 16 - 12 + 10 + 2 = 16
+      const essayMax1 = parseFloat(document.getElementById('essay_max_1').value);
+      const essayMin1 = parseFloat(document.getElementById('essay_min_1').value);
+      const fbEssay1 = document.getElementById('feedback_essay_1');
+      let essay1Score = 0;
+      if (essayMax1 === 16) essay1Score += 5;
+      if (essayMin1 === 2) essay1Score += 5;
+      score += essay1Score;
+
+      if (essay1Score === 10) {
+        fbEssay1.innerHTML = '<span class="text-emerald-600 font-bold"><i class="fa-solid fa-circle-check"></i> Chuẩn xác: Max = 16, Min = 2 (+10đ)</span>';
+      } else {
+        fbEssay1.innerHTML = `<span class="text-amber-600 font-bold">Đạt ${essay1Score}/10đ. (Gợi ý: Max = 16 tại x = 2; Min = 2 tại x = 0)</span>`;
+      }
+
+      // Bài 2: Số người tối đa = 25600 người
+      const essayVal2 = document.getElementById('essay_val_2').value.replace(/[^0-9]/g, '');
+      const fbEssay2 = document.getElementById('feedback_essay_2');
+      if (essayVal2 === '25600' || essayVal2 === '256') {
+        score += 10;
+        fbEssay2.innerHTML = '<span class="text-emerald-600 font-bold"><i class="fa-solid fa-circle-check"></i> Chính xác: 25.600 người (tức 256 trăm người) (+10đ)</span>';
+      } else {
+        fbEssay2.innerHTML = '<span class="text-rose-500 font-bold"><i class="fa-solid fa-circle-xmark"></i> Chưa đúng! Số người tối đa = N(8) = 256 trăm người = 25.600 người</span>';
+      }
+
+      // Update live score display & sound
+      const finalScore = Math.round(score);
+      document.getElementById('live-score').innerText = `${finalScore} / 100`;
+
+      // Lưu điểm số vào biến toàn cục để Nộp bài
+      window.currentScore = finalScore;
+
+      // Hiển thị nút "Nộp Bài" sau khi chấm điểm
+      const btnSubmit = document.getElementById('btn-submit-result');
+      if (btnSubmit) {
+         btnSubmit.classList.remove('hidden');
+      }
+
+      if (finalScore >= 80) {
+        playTone('complete');
+      } else if (finalScore >= 50) {
+        playTone('correct');
+      } else {
+        playTone('wrong');
+      }
+
+      // Scroll smoothly to top score card
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /* Gửi kết quả về Google Sheet */
+    function submitResult() {
+        const hoTen = document.getElementById('student_name').value.trim();
+        const lop = document.getElementById('student_class').value.trim();
+        const stt = document.getElementById('student_stt').value.trim();
+        const score = window.currentScore || 0;
+        const totalScore = 100;
+
+        const timestamp = new Date().toLocaleString("vi-VN");
+        const payload = {
+            timestamp: timestamp,
+            hoTen: hoTen || "Không có",
+            lop: lop || "Không có",
+            stt: stt || "",
+            diem: score,
+            tongDiem: totalScore,
+            tenGame: " GAME MATH"
+        };
+
+        const submitBtn = document.getElementById('btn-submit-result');
+        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang gửi...';
+        submitBtn.disabled = true;
+        submitBtn.classList.remove('animate-pulse');
+
+        fetch("https://script.google.com/macros/s/AKfycbxKGYC7AKG9TBL7EOqO_VB5hXV2-JYvzA2u2VG-g2z7Zg57KodaOMeseM1LS6vh4K08Ng/exec", {
+            method: "POST",
+            mode: "no-cors",
+            headers: {
+                "Content-Type": "text/plain;charset=utf-8"
+            },
+            body: JSON.stringify(payload)
+        })
+        .then(() => {
+            submitBtn.innerHTML = '<i class="fa-solid fa-check-double"></i> Đã nộp bài';
+            submitBtn.classList.remove('from-rose-500', 'to-rose-600', 'hover:from-rose-700', 'hover:shadow-rose-300');
+            submitBtn.classList.add('bg-emerald-600', 'hover:bg-emerald-700');
+            alert(`Tuyệt vời! Đã nộp bài thành công về hệ thống.\nĐiểm số của bạn: ${score}/${totalScore}`);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            submitBtn.innerHTML = '<i class="fa-solid fa-rotate-right"></i> Lỗi, thử lại';
+            submitBtn.disabled = false;
+            alert("Đã xảy ra lỗi khi kết nối với máy chủ. Vui lòng kiểm tra lại mạng!");
+        });
+    }
+
+    /* Hàm render công thức Toán học an toàn chống lỗi trên trình duyệt Mobile/Zalo */
+    function renderMathFormulas() {
+      if (typeof renderMathInElement !== 'undefined') {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true}
+          ],
+          throwOnError: false
+        });
+      } else {
+        // Nếu điện thoại tải chậm, tự động thử lại sau 200ms
+        setTimeout(renderMathFormulas, 200);
+      }
+    }
+
+    // Đảm bảo chạy ngay khi giao diện vừa vẽ xong (tối ưu cho Zalo/FB)
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathFormulas();
+    });
+
+    /* Window Load Event */
+    window.onload = function () {
+      initQrCodes();
+      renderInteractiveGraph('parabola');
+      renderMathFormulas(); // Chạy lại lần nữa cho chắc chắn
+    };
+  </script>
+</body>
+</html>
